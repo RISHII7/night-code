@@ -2,16 +2,24 @@
 
 ## 1. Why a Monorepo
 
-NightCode ships four cooperating pieces — a terminal client, an API server, a database layer, and shared contracts between them — that all need to change together and stay in lock-step on types. A single Bun-workspace monorepo lets the team:
+NightCode ships four cooperating pieces — a terminal client, an API server, a
+database layer, and shared contracts between them — that all need to change
+together and stay in lock-step on types. A single Bun-workspace monorepo lets
+the team:
 
-- Share Zod schemas and TypeScript types between the CLI and server without publishing an internal package to a registry.
+- Share Zod schemas and TypeScript types between the CLI and server without
+  publishing an internal package to a registry.
 - Run one install (`bun install`) to set up every package at once.
-- Guarantee the CLI and server always build against the same version of shared contracts, since they resolve to local workspace packages rather than pinned versions that can drift.
-- Ship a typed RPC client: the CLI imports the server's route types directly (`AppType`) to get full autocomplete and compile-time errors if a request shape ever falls out of sync with the API.
+- Guarantee the CLI and server always build against the same version of shared
+  contracts, since they resolve to local workspace packages rather than pinned
+  versions that can drift.
+- Ship a typed RPC client: the CLI imports the server's route types directly
+  (`AppType`) to get full autocomplete and compile-time errors if a request
+  shape ever falls out of sync with the API.
 
 ## 2. Top-Level Layout
 
-```
+```text
 nightcode/
 ├── package.json                 # workspace root: scripts that fan out to each package
 ├── bun.lock                     # single lockfile for the whole workspace
@@ -26,7 +34,7 @@ nightcode/
 
 ## 3. `packages/cli`
 
-```
+```text
 packages/cli/
 ├── bin/
 │   └── nightcode                # executable shim installed on the user's PATH
@@ -71,7 +79,7 @@ packages/cli/
 
 ## 4. `packages/server`
 
-```
+```text
 packages/server/
 ├── src/
 │   ├── index.ts                  # Hono app assembly, route mounting, port config
@@ -95,7 +103,7 @@ packages/server/
 
 ## 5. `packages/database`
 
-```
+```text
 packages/database/
 ├── prisma/
 │   └── schema.prisma             # single source of truth for the data model
@@ -109,7 +117,7 @@ packages/database/
 
 ## 6. `packages/shared`
 
-```
+```text
 packages/shared/
 ├── src/
 │   ├── models.ts                  # SUPPORTED_CHAT_MODELS registry + pricing/tier metadata
@@ -134,18 +142,25 @@ flowchart LR
     cli -.type-only import (AppType).-> server
 ```
 
-The CLI's only runtime dependency on the server package is through the `hono/client` typed RPC client, and that import is type-only — the CLI never bundles server code, it only borrows the server's route type signatures at compile time for end-to-end type safety.
+The CLI's only runtime dependency on the server package is through the
+`hono/client` typed RPC client, and that import is type-only — the CLI never
+bundles server code, it only borrows the server's route type signatures at
+compile time for end-to-end type safety.
 
 ## 8. Root Scripts
 
-| Script | Purpose |
-|---|---|
-| `bun run dev:cli` | Runs the CLI in watch mode against a locally running server |
-| `bun run dev:server` | Runs the API with hot reload |
-| `bun run build:cli` | Bundles the CLI into a standalone executable target |
-| `bun run link:cli` | Builds and symlinks the `nightcode` binary onto the local PATH for manual testing |
-| `bun run --cwd packages/database db:generate` | Regenerates the Prisma client from `schema.prisma` |
+| Script                                        | Purpose                                                                           |
+| --------------------------------------------- | --------------------------------------------------------------------------------- |
+| `bun run dev:cli`                             | Runs the CLI in watch mode against a locally running server                       |
+| `bun run dev:server`                          | Runs the API with hot reload                                                      |
+| `bun run build:cli`                           | Bundles the CLI into a standalone executable target                               |
+| `bun run link:cli`                            | Builds and symlinks the `nightcode` binary onto the local PATH for manual testing |
+| `bun run --cwd packages/database db:generate` | Regenerates the Prisma client from `schema.prisma`                                |
 
 ## 9. Naming Convention
 
-Every workspace package is namespaced under `@nightcode/*` (`@nightcode/cli`, `@nightcode/server`, `@nightcode/database`, `@nightcode/shared`) and resolved locally via Bun workspace protocol (`workspace:*`) rather than published to a public registry — these are internal packages that exist only to share code within the monorepo, not standalone libraries.
+Every workspace package is namespaced under `@nightcode/*` (`@nightcode/cli`,
+`@nightcode/server`, `@nightcode/database`, `@nightcode/shared`) and resolved
+locally via Bun workspace protocol (`workspace:*`) rather than published to a
+public registry — these are internal packages that exist only to share code
+within the monorepo, not standalone libraries.

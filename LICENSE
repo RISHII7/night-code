@@ -1,0 +1,35 @@
+Copyright (c) 2026 NightCode, and its contributors.
+
+All Rights Reserved.
+
+This source code and all associated files (the "Software") are the
+proprietary property of the copyright holder. The Software is made
+available in this repository for transparency, collaboration with
+authorized contributors, and evaluation purposes only.
+
+Except as expressly permitted in writing by the copyright holder, no
+part of the Software may be:
+
+  1. copied, reproduced, or redistributed in source or binary form;
+  2. modified, adapted, or used to create derivative works;
+  3. sublicensed, sold, rented, leased, or otherwise commercially
+     exploited, whether alone or as part of another product or
+     service;
+  4. used to operate a competing product or service.
+
+Contributions submitted to this repository via pull request are
+accepted under the terms described in CONTRIBUTING.md and do not
+grant the contributor any license back to the Software beyond what
+is necessary to have the contribution reviewed and, if accepted,
+incorporated into the project by the copyright holder.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR
+ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM, OUT OF, OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+For licensing inquiries, commercial use, or partnership requests,
+contact the maintainer listed in the repository's README.

@@ -1,0 +1,86 @@
+version: 2
+
+updates:
+  # ---------------------------------------------------------------------------
+  # npm / Bun ecosystem
+  #
+  # Dependabot does not natively parse `bun.lock`, but it does understand the
+  # `package.json` manifests in a workspace. Version bumps land as PRs; CI is the
+  # gate that decides whether they are safe to merge.
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Etc/UTC"
+    open-pull-requests-limit: 10
+    target-branch: "develop"
+    versioning-strategy: "increase"
+    labels:
+      - "type: dependencies"
+      - "area: tooling"
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(deps-dev)"
+      include: "scope"
+    reviewers:
+      - "RISHII7"
+    groups:
+      # Group low-risk patch updates so they arrive as one reviewable PR rather
+      # than a dozen individually.
+      patch-updates:
+        applies-to: version-updates
+        update-types:
+          - "patch"
+      eslint:
+        patterns:
+          - "eslint"
+          - "eslint-*"
+          - "@eslint/*"
+          - "typescript-eslint"
+      react:
+        patterns:
+          - "react"
+          - "react-*"
+          - "@types/react"
+      opentui:
+        patterns:
+          - "@opentui/*"
+    ignore:
+      # OpenTUI is pre-1.0 and its patch releases have shipped behavior changes
+      # (a terminal resize regression, for one). Pin deliberately and upgrade on
+      # purpose, not automatically.
+      - dependency-name: "@opentui/core"
+        update-types: ["version-update:semver-patch"]
+      - dependency-name: "@opentui/react"
+        update-types: ["version-update:semver-patch"]
+
+  # ---------------------------------------------------------------------------
+  # GitHub Actions
+  #
+  # Actions are third-party code running with repository credentials. Keeping
+  # them current is a supply chain control, not housekeeping.
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Etc/UTC"
+    open-pull-requests-limit: 5
+    target-branch: "develop"
+    labels:
+      - "type: dependencies"
+      - "area: ci"
+    commit-message:
+      prefix: "ci(deps)"
+      include: "scope"
+    reviewers:
+      - "RISHII7"
+    groups:
+      actions:
+        patterns:
+          - "*"

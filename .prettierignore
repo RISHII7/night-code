@@ -1,0 +1,8 @@
+node_modules
+dist
+out
+coverage
+bun.lock
+*.tgz
+packages/database/generated
+CHANGELOG.md
