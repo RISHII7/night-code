@@ -121,6 +121,12 @@ initial terminal client scaffold, and the repository's engineering governance.
 - Ten fenced code blocks carried no language tag, and the pitch deck outline
   skipped from an `h1` straight to `h3` for every slide, breaking the document
   outline for screen readers and table-of-contents tooling. ([#2])
+- Commit linting rejected every acronym. `subject-case` was set to
+  `["always", "lower-case"]`, which forbids any uppercase character anywhere in
+  a subject — so `fix workflow YAML trigger key` and
+  `establish CI/CD baseline` both failed. It now forbids the wrong casings
+  (sentence, start, pascal, upper) rather than mandating one, which is what the
+  Conventional Commits preset does and why. ([#15])
 
 ### Changed
 
@@ -159,3 +165,4 @@ initial terminal client scaffold, and the repository's engineering governance.
 [#1]: https://github.com/RISHII7/night-code/pull/1
 [#2]: https://github.com/RISHII7/night-code/pull/2
 [#14]: https://github.com/RISHII7/night-code/pull/14
+[#15]: https://github.com/RISHII7/night-code/pull/15

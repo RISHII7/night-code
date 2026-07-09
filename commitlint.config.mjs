@@ -35,7 +35,16 @@ export default {
       ["cli", "server", "database", "shared", "docs", "ci", "deps", "release", "repo"],
     ],
     "scope-case": [2, "always", "lower-case"],
-    "subject-case": [2, "always", "lower-case"],
+
+    // The subject must not be Sentence-cased, Start-Cased, PascalCased, or
+    // UPPERCASED. It may still contain acronyms.
+    //
+    // `["always", "lower-case"]` was tried first and rejected every legitimate
+    // acronym — "fix workflow YAML trigger key" and "establish CI/CD baseline"
+    // both failed. Forbidding the wrong casings, rather than mandating one, is
+    // what the Conventional Commits preset does and is the reason it does it.
+    "subject-case": [2, "never", ["sentence-case", "start-case", "pascal-case", "upper-case"]],
+
     "subject-empty": [2, "never"],
     "subject-full-stop": [2, "never", "."],
     "header-max-length": [2, "always", 100],
