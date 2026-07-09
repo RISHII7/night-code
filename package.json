@@ -30,9 +30,13 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "bun test",
-    "test:coverage": "bun test --coverage"
+    "test:coverage": "bun test --coverage",
+    "commitlint": "commitlint --config commitlint.config.mjs",
+    "commitlint:branch": "commitlint --config commitlint.config.mjs --from origin/develop --to HEAD"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.2.1",
+    "@commitlint/config-conventional": "^21.2.0",
     "@eslint/js": "^9.18.0",
     "@types/bun": "latest",
     "eslint": "^9.18.0",
