@@ -29,6 +29,19 @@ file, and tag the release. See CONTRIBUTING.md for the full release process.
   labels. The action now runs with `disable-releaser: true` and is used purely
   to label pull requests from their Conventional Commit title. `CHANGELOG.md`
   is the only source of release notes. ([#17])
+- The automated back-merge from `main` into `develop` failed silently. Its
+  final command was `|| echo "Nothing to back-merge, or the PR already
+  exists."`, which swallowed a hard permissions error — GitHub Actions was not
+  permitted to create pull requests — and exited zero. The job reported success
+  while doing nothing, and `develop` fell eight commits behind `main` after
+  v0.1.0. The step now runs under `set -euo pipefail`, distinguishes "already
+  open" and "nothing to merge" from a genuine failure, and fails loudly
+  otherwise. The required repository setting is documented in
+  `CONTRIBUTING.md`. ([#19])
+- The OpenSSF Scorecard job could never succeed. It was gated to pushes on
+  `main`, but the action supports only a repository's default branch, which
+  here is `develop`. It exited with "validating options: only default branch is
+  supported". The gate now resolves the default branch dynamically. ([#19])
 
 ## [0.1.0] - 2026-07-10
 
@@ -189,3 +202,4 @@ initial terminal client scaffold, and the repository's engineering governance.
 [#15]: https://github.com/RISHII7/night-code/pull/15
 [#16]: https://github.com/RISHII7/night-code/pull/16
 [#17]: https://github.com/RISHII7/night-code/pull/17
+[#19]: https://github.com/RISHII7/night-code/pull/19
