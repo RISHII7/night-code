@@ -57,6 +57,18 @@ bun run test
 bun run build
 ```
 
+Check that every commit on your branch is a valid Conventional Commit, which CI
+also enforces:
+
+```bash
+bun run commitlint:branch
+```
+
+One trap worth knowing: commitlint's parser treats any body line beginning with
+`word:` as a git trailer. Writing an example commit subject at the start of a
+line inside your commit body will therefore fail `footer-leading-blank`. Quote
+such examples inline instead of putting them on their own line.
+
 ## Branching Model
 
 NightCode follows a **GitFlow-derived** model with two long-lived branches.

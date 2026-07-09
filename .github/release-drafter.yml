@@ -1,3 +1,11 @@
+# Consumed by .github/workflows/release-drafter.yml, which runs this action
+# with `disable-releaser: true`. Only the `autolabeler` block below is live.
+#
+# The template, categories, and version-resolver settings are retained because
+# they cost nothing and document how notes would be grouped if drafting were
+# ever re-enabled. Today, release notes come from CHANGELOG.md and nowhere
+# else — see the comment in the workflow for why.
+
 name-template: "v$RESOLVED_VERSION"
 tag-template: "v$RESOLVED_VERSION"
 tag-prefix: v
