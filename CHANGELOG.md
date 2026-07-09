@@ -121,6 +121,18 @@ initial terminal client scaffold, and the repository's engineering governance.
 - Ten fenced code blocks carried no language tag, and the pitch deck outline
   skipped from an `h1` straight to `h3` for every slide, breaking the document
   outline for screen readers and table-of-contents tooling. ([#2])
+- The release workflow could not publish. It uploaded the build output as
+  loose files from three platform matrix jobs, but the build emits a dozen
+  identically-named files (`index.js`, tree-sitter grammars, highlight
+  queries) and GitHub release assets share one flat namespace per release, so
+  the uploads collided. The build output is now packaged into a single
+  compressed archive with a `SHA256SUMS.txt` alongside it. ([#16])
+- The release published three "platform" archives that were byte-identical.
+  `bun build --target bun` emits a platform-independent JavaScript bundle, not
+  a native executable, so `nightcode-linux-x64` and `nightcode-darwin-arm64`
+  differed in name only. One archive is now published. The matrix still builds
+  on Linux, macOS, and Windows, but as a build check rather than as a source
+  of distinct artifacts. ([#16])
 - Commit linting rejected every acronym. `subject-case` was set to
   `["always", "lower-case"]`, which forbids any uppercase character anywhere in
   a subject — so `fix workflow YAML trigger key` and
@@ -166,3 +178,4 @@ initial terminal client scaffold, and the repository's engineering governance.
 [#2]: https://github.com/RISHII7/night-code/pull/2
 [#14]: https://github.com/RISHII7/night-code/pull/14
 [#15]: https://github.com/RISHII7/night-code/pull/15
+[#16]: https://github.com/RISHII7/night-code/pull/16
