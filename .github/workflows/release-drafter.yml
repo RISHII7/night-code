@@ -30,7 +30,7 @@ jobs:
       # matching labels.
       #
       # Two systems cannot own the release body. The changelog wins.
-      - uses: release-drafter/release-drafter@v6
+      - uses: release-drafter/release-drafter@v7
         with:
           config-name: release-drafter.yml
           disable-releaser: true
