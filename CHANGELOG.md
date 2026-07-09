@@ -44,6 +44,13 @@ file, and tag the release. See CONTRIBUTING.md for the full release process.
 
 ### Changed
 
+- Pull requests into `develop` now merge with a **merge commit** rather than a
+  squash. A squash collapses a branch into one commit and discards the
+  reasoning recorded in each individual commit message — which is exactly what
+  `git blame` surfaces years later, to a reader with no access to the pull
+  request discussion. The consequence is that every commit must now stand on
+  its own as a valid Conventional Commit. Dependabot bumps are still squashed.
+  ([#14])
 - Dependabot now ignores **minor** as well as patch updates for `@opentui/*`.
   The package is pre-1.0, where a minor bump carries no compatibility promise,
   and the previous configuration still auto-opened a `0.1.107` → `0.4.3`

@@ -13,8 +13,9 @@ permissions:
 
 jobs:
   # ---------------------------------------------------------------------------
-  # PRs are squash-merged into `develop`, so the PR title becomes the commit
-  # message on the trunk. It must be a valid Conventional Commit.
+  # The PR title becomes the merge commit's subject, so it must be a valid
+  # Conventional Commit. Every individual commit is linted separately below,
+  # because merges into `develop` preserve them all.
   # ---------------------------------------------------------------------------
   pr-title:
     name: Conventional Commit title
@@ -61,9 +62,9 @@ jobs:
           wip: true
 
   # ---------------------------------------------------------------------------
-  # Every commit on the branch must also be a valid Conventional Commit, so the
-  # history stays legible even when a PR is merged with a merge commit
-  # (release/* and hotfix/* branches into main).
+  # Merges preserve every commit, so every commit lands on the trunk and must
+  # be a valid Conventional Commit that stands on its own. This check is the
+  # reason "wip" and "address review" commits do not reach `develop`.
   # ---------------------------------------------------------------------------
   commitlint:
     name: Commit messages

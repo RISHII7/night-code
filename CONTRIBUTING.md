@@ -102,8 +102,8 @@ Never commit directly to `main` or `develop`. Both are protected.
 ## Commit Convention
 
 This project uses [Conventional Commits](https://www.conventionalcommits.org/).
-Commit messages are linted in CI, and pull request titles must follow the same
-format because they become the squash-merge commit message.
+Every commit message is linted in CI, and pull request titles must follow the
+same format because the title becomes the merge commit's subject.
 
 ```text
 <type>(<optional scope>): <description>
@@ -133,19 +133,20 @@ format because they become the squash-merge commit message.
 ### Example
 
 ```text
-feat(cli)!: resolve commands against the filtered list
+fix(cli): execute the command the user actually clicked
 
 handleCommandExecute was memoized with an empty dependency array, so it
 permanently closed over the first render's resolveCommand — which had
-captured the unfiltered COMMANDS array. Mouse-clicking a filtered command
-therefore executed the wrong entry, while keyboard selection worked because
-onSubmitRef is reassigned on every render.
+captured the unfiltered command list. Mouse-clicking a filtered command
+therefore executed the wrong entry. Keyboard selection was unaffected,
+because onSubmitRef is reassigned on every render.
 
-BREAKING CHANGE: useCommandMenu now returns a memoized resolveCommand.
-Consumers must include it in their dependency arrays.
-
-Closes #14
+Closes #42
 ```
+
+Note what the body does: it explains the mechanism and, crucially, why the bug
+only appeared on one input path. A reader hitting this code in two years learns
+something from it. `fix(cli): fix command menu` would teach them nothing.
 
 ## Pull Request Process
 
@@ -162,11 +163,25 @@ Closes #14
 
 ### Merge strategy
 
-- Feature and fix branches into `develop`: **squash merge**. The pull request
-  title becomes the commit message, which is why it must be a valid Conventional
-  Commit.
+- Feature and fix branches into `develop`: **merge commit**. Every commit on the
+  branch is preserved on the trunk.
+
+  This is a deliberate choice against the more common squash-merge. A squash
+  collapses a branch into one commit, and with it the reasoning recorded in each
+  individual commit message. That reasoning is precisely what `git blame` and
+  `git log` exist to surface years later, when the person reading the code has
+  no access to the pull request discussion. Preserving it is worth the extra
+  commits in the graph.
+
+  The consequence is that **every commit must stand on its own**: a valid
+  Conventional Commit, with a message that explains why the change was made. Do
+  not push "wip", "fix typo", or "address review" commits — rebase them away
+  before requesting review.
+
 - `release/*` and `hotfix/*` into `main`: **merge commit**, to preserve the
   branch topology and keep the release lineage legible.
+- Dependency bumps opened by Dependabot: **squash merge**. There is nothing to
+  preserve.
 - Branches are **not** deleted after merge. History is retained deliberately.
 
 ### Draft pull requests
