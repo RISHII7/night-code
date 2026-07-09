@@ -1,13 +1,17 @@
 <!--
 Thank you for contributing to NightCode.
 
-The PR title must be a valid Conventional Commit — it becomes the squash-merge
-commit message on `develop`. CI enforces this.
+The PR title must be a valid Conventional Commit — it becomes the merge commit
+subject on `develop`. CI enforces this.
 
   Examples:
     feat(cli): add model picker dialog
     fix(server): reject premium models for free-tier accounts
     docs: clarify the bash tool's threat model
+
+Merges preserve every commit, so each individual commit must also be a valid
+Conventional Commit that stands on its own. Rebase away "wip" and "address
+review" commits before requesting review.
 
 See CONTRIBUTING.md for the full convention.
 -->

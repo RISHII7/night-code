@@ -30,7 +30,7 @@
           - "package.json"
           - "bun.lock"
           - "eslint.config.js"
-          - "commitlint.config.js"
+          - "commitlint.config.mjs"
           - ".prettierrc.json"
           - ".prettierignore"
           - ".editorconfig"

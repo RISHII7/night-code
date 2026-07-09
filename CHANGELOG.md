@@ -19,7 +19,43 @@ file, and tag the release. See CONTRIBUTING.md for the full release process.
 
 ## [Unreleased]
 
-_Nothing yet._
+### Fixed
+
+- Commit message linting failed in CI because `commitlint-github-action`
+  rejects a `.js` config file outright, regardless of the package's module
+  type. Renamed `commitlint.config.js` to `commitlint.config.mjs`. The error
+  it surfaced ("You have commit messages with errors") was misleading — no
+  commit message was ever at fault. ([#14])
+- Dependabot produced pull request titles with a doubled scope
+  (`ci(deps)(deps): ...`), which the Conventional Commit title check rejects.
+  The scope was specified both in `prefix` and via `include: "scope"`. ([#14])
+- Removed the deprecated `reviewers` key from `dependabot.yml`. Reviewer
+  assignment comes from `CODEOWNERS`. ([#14])
+- Pinned `ossf/scorecard-action` to `v2.4.3`. It was referenced as `@v2`, but
+  the action publishes no floating major tag, so the Scorecard job would have
+  failed to resolve the action the first time it ran on `main`. ([#14])
+- Quoted the `on` key in every workflow. YAML 1.1 coerces the bare key `on`
+  to the boolean `true`, so strict parsers and schema validators could not
+  resolve the GitHub Actions trigger block. ([#14])
+- Simplified `auto-assign.yml`: dropped the `issues` trigger, which had no
+  corresponding job, and removed a guard that indexed into
+  `pull_request.assignees[0]`. Adding an assignee who is already assigned is
+  a no-op, so the guard was never needed. ([#14])
+
+### Changed
+
+- Pull requests into `develop` now merge with a **merge commit** rather than a
+  squash. A squash collapses a branch into one commit and discards the
+  reasoning recorded in each individual commit message — which is exactly what
+  `git blame` surfaces years later, to a reader with no access to the pull
+  request discussion. The consequence is that every commit must now stand on
+  its own as a valid Conventional Commit. Dependabot bumps are still squashed.
+  ([#14])
+- Dependabot now ignores **minor** as well as patch updates for `@opentui/*`.
+  The package is pre-1.0, where a minor bump carries no compatibility promise,
+  and the previous configuration still auto-opened a `0.1.107` → `0.4.3`
+  upgrade despite the config claiming that version should be chosen
+  deliberately. ([#14])
 
 ## [0.1.0] - 2026-07-10
 
@@ -119,3 +155,5 @@ initial terminal client scaffold, and the repository's engineering governance.
 
 [#1]: https://github.com/RISHII7/night-code/pull/1
 [#2]: https://github.com/RISHII7/night-code/pull/2
+
+[#14]: https://github.com/RISHII7/night-code/pull/14
