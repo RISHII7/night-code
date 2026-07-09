@@ -19,7 +19,13 @@ file, and tag the release. See CONTRIBUTING.md for the full release process.
 
 ## [Unreleased]
 
-_Nothing yet._
+### Fixed
+
+- Commit message linting failed in CI because `commitlint-github-action`
+  rejects a `.js` config file outright, regardless of the package's module
+  type. Renamed `commitlint.config.js` to `commitlint.config.mjs`. The error
+  it surfaced ("You have commit messages with errors") was misleading — no
+  commit message was ever at fault. ([#5])
 
 ## [0.1.0] - 2026-07-10
 
@@ -119,3 +125,5 @@ initial terminal client scaffold, and the repository's engineering governance.
 
 [#1]: https://github.com/RISHII7/night-code/pull/1
 [#2]: https://github.com/RISHII7/night-code/pull/2
+
+[#5]: https://github.com/RISHII7/night-code/pull/5

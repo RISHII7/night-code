@@ -78,7 +78,7 @@ jobs:
       - name: Lint commit messages in this PR
         uses: wagoid/commitlint-github-action@v6
         with:
-          configFile: commitlint.config.js
+          configFile: commitlint.config.mjs
           failOnWarnings: true
           helpURL: https://github.com/RISHII7/night-code/blob/main/CONTRIBUTING.md#commit-convention
 
