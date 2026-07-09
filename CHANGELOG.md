@@ -19,7 +19,16 @@ file, and tag the release. See CONTRIBUTING.md for the full release process.
 
 ## [Unreleased]
 
-_Nothing yet._
+### Fixed
+
+- Release Drafter overwrote the curated release notes. It created a draft
+  release for the upcoming tag on every pull request, so publishing the tag
+  landed on that draft and its auto-generated body replaced the notes
+  `release.yml` had extracted from this file. It also listed a single pull
+  request under two headings whenever the pull request carried two matching
+  labels. The action now runs with `disable-releaser: true` and is used purely
+  to label pull requests from their Conventional Commit title. `CHANGELOG.md`
+  is the only source of release notes. ([#17])
 
 ## [0.1.0] - 2026-07-10
 
@@ -179,3 +188,4 @@ initial terminal client scaffold, and the repository's engineering governance.
 [#14]: https://github.com/RISHII7/night-code/pull/14
 [#15]: https://github.com/RISHII7/night-code/pull/15
 [#16]: https://github.com/RISHII7/night-code/pull/16
+[#17]: https://github.com/RISHII7/night-code/pull/17
