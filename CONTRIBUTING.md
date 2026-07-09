@@ -239,7 +239,13 @@ Releases are cut from `develop` into `main` and tagged with an annotated tag.
 7. The `release` workflow publishes the GitHub Release from the tag, extracting
    the release notes from `CHANGELOG.md`.
 8. Merge `main` back into `develop` so the version bump and any release fixes
-   flow forward.
+   flow forward. The `release` workflow opens this pull request automatically.
+
+> **Required repository setting.** The back-merge step needs _Settings → Actions
+> → General → Allow GitHub Actions to create and approve pull requests_ enabled.
+> Without it, `gh pr create` fails with
+> `GitHub Actions is not permitted to create or approve pull requests`, and
+> `develop` silently drifts behind `main`.
 
 ### Versioning
 
