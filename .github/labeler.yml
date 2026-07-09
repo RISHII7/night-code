@@ -1,0 +1,85 @@
+# Path-based automatic labeling of pull requests.
+# Consumed by .github/workflows/labeler.yml (actions/labeler v5 syntax).
+
+"area: cli":
+  - changed-files:
+      - any-glob-to-any-file: "packages/cli/**"
+
+"area: server":
+  - changed-files:
+      - any-glob-to-any-file: "packages/server/**"
+
+"area: database":
+  - changed-files:
+      - any-glob-to-any-file: "packages/database/**"
+
+"area: shared":
+  - changed-files:
+      - any-glob-to-any-file: "packages/shared/**"
+
+"area: ci":
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".github/workflows/**"
+          - ".github/dependabot.yml"
+          - ".github/labeler.yml"
+
+"area: tooling":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "package.json"
+          - "bun.lock"
+          - "eslint.config.js"
+          - "commitlint.config.mjs"
+          - ".prettierrc.json"
+          - ".prettierignore"
+          - ".editorconfig"
+          - ".gitattributes"
+          - "tsconfig*.json"
+
+"type: docs":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "docs/**"
+          - "client-deliverables/**"
+          - "**/*.md"
+
+"type: tests":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.test.ts"
+          - "**/*.test.tsx"
+          - "**/*.spec.ts"
+
+# Any change to a security-sensitive path gets flagged for heightened review.
+# See CONTRIBUTING.md — these PRs require a written security rationale.
+"security: needs-review":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "packages/cli/src/lib/local-tools.ts"
+          - "packages/cli/src/lib/auth.ts"
+          - "packages/cli/src/lib/oauth.ts"
+          - "packages/server/src/lib/auth.ts"
+          - "packages/server/src/lib/credits.ts"
+          - "packages/server/src/middleware/**"
+          - "packages/shared/src/schemas.ts"
+          - "packages/shared/src/models.ts"
+          - "SECURITY.md"
+
+"type: dependencies":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "bun.lock"
+          - "**/package.json"
+
+"area: governance":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "LICENSE"
+          - "GOVERNANCE.md"
+          - "CODE_OF_CONDUCT.md"
+          - "CONTRIBUTING.md"
+          - "MAINTAINERS.md"
+          - "SUPPORT.md"
+          - "AUTHORS.md"
+          - ".github/CODEOWNERS"

@@ -1,0 +1,94 @@
+version: 2
+
+updates:
+  # ---------------------------------------------------------------------------
+  # npm / Bun ecosystem
+  #
+  # Dependabot does not natively parse `bun.lock`, but it does understand the
+  # `package.json` manifests in a workspace. Version bumps land as PRs; CI is the
+  # gate that decides whether they are safe to merge.
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Etc/UTC"
+    open-pull-requests-limit: 10
+    target-branch: "develop"
+    versioning-strategy: "increase"
+    labels:
+      - "type: dependencies"
+      - "area: tooling"
+    # `include: "scope"` makes Dependabot append the scope itself, producing
+    # "chore(deps): ...". Putting the scope in `prefix` as well yields the
+    # invalid "chore(deps)(deps): ...", which the Conventional Commit title
+    # check then rejects.
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    # Reviewers are assigned by .github/CODEOWNERS, not here. Dependabot's
+    # `reviewers` key is deprecated and rejected by the schema.
+    groups:
+      # Group low-risk patch updates so they arrive as one reviewable PR rather
+      # than a dozen individually.
+      patch-updates:
+        applies-to: version-updates
+        update-types:
+          - "patch"
+      eslint:
+        patterns:
+          - "eslint"
+          - "eslint-*"
+          - "@eslint/*"
+          - "typescript-eslint"
+      react:
+        patterns:
+          - "react"
+          - "react-*"
+          - "@types/react"
+      opentui:
+        patterns:
+          - "@opentui/*"
+    ignore:
+      # OpenTUI is pre-1.0, where a minor bump carries no compatibility promise
+      # and its patch releases have already shipped behavior changes (a terminal
+      # resize regression, for one). Both patch and minor are ignored so the
+      # version is chosen on purpose and verified against the terminal UI by
+      # hand, rather than drifting in through an automated pull request.
+      - dependency-name: "@opentui/core"
+        update-types:
+          - "version-update:semver-patch"
+          - "version-update:semver-minor"
+      - dependency-name: "@opentui/react"
+        update-types:
+          - "version-update:semver-patch"
+          - "version-update:semver-minor"
+
+  # ---------------------------------------------------------------------------
+  # GitHub Actions
+  #
+  # Actions are third-party code running with repository credentials. Keeping
+  # them current is a supply chain control, not housekeeping.
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Etc/UTC"
+    open-pull-requests-limit: 5
+    target-branch: "develop"
+    labels:
+      - "type: dependencies"
+      - "area: ci"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    groups:
+      actions:
+        patterns:
+          - "*"

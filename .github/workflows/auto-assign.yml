@@ -1,0 +1,29 @@
+name: Auto Assign
+
+"on":
+  pull_request_target:
+    types: [opened, ready_for_review]
+
+permissions:
+  contents: read
+
+jobs:
+  assign-pr-author:
+    name: Assign PR to its author
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+    steps:
+      # An unassigned pull request has no owner, which makes it unclear who is
+      # expected to act next when it stalls. Adding an assignee who is already
+      # assigned is a no-op, so this needs no guard against re-running.
+      - name: Assign author
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh pr edit "$PR_NUMBER" --repo "$REPO" --add-assignee "$PR_AUTHOR" \
+            || echo "Could not assign $PR_AUTHOR (likely an outside contributor, or a bot such as Dependabot)."

@@ -1,0 +1,78 @@
+name: Documentation
+
+"on":
+  push:
+    branches: [main, develop]
+    paths:
+      - "**/*.md"
+      - ".github/workflows/docs.yml"
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - "**/*.md"
+      - ".github/workflows/docs.yml"
+  schedule:
+    # External links rot. Catch it on a schedule, not when a customer clicks one.
+    - cron: "0 9 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  markdown-lint:
+    name: Markdown lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lint markdown
+        uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          globs: |
+            **/*.md
+            !node_modules
+            !CHANGELOG.md
+
+  link-check:
+    name: Link check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --verbose
+            --accept 200,204,206,429
+            --exclude-mail
+            --exclude-path node_modules
+            --max-retries 3
+            --timeout 20
+            './**/*.md'
+          fail: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  spellcheck:
+    name: Spell check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Spell check
+        uses: streetsidesoftware/cspell-action@v6
+        with:
+          files: |
+            **/*.md
+          incremental_files_only: true
+          strict: false

@@ -1,0 +1,38 @@
+{
+  // Markdown lint rules. Deliberately permissive where Prettier already owns
+  // the concern (line length, list indentation) and strict where a rule
+  // catches genuine readability or accessibility problems.
+  "config": {
+    "default": true,
+
+    // Prettier owns line wrapping. Enforcing it twice creates conflicts.
+    "MD013": false,
+
+    // Duplicate headings are fine across different sections (e.g. several
+    // "### Rules" subsections in a long document).
+    "MD024": { "siblings_only": true },
+
+    // The docs use HTML for diagrams, alignment, and collapsible sections.
+    "MD033": false,
+
+    // Bare URLs appear in license text and contact blocks.
+    "MD034": false,
+
+    // The first line of a file is not always a top-level heading (e.g. files
+    // that open with a maintainer note or a badge block).
+    "MD041": false,
+
+    // Emphasis used as a heading is intentional in several client-facing docs.
+    "MD036": false,
+  },
+
+  "globs": ["**/*.md"],
+
+  "ignores": [
+    "node_modules/**",
+    "dist/**",
+    "coverage/**",
+    "CHANGELOG.md",
+    ".github/PULL_REQUEST_TEMPLATE.md",
+  ],
+}

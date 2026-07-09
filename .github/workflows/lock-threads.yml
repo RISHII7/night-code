@@ -1,0 +1,51 @@
+name: Lock Threads
+
+"on":
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lock:
+    name: Lock closed threads
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      issues: write
+      pull-requests: write
+      discussions: write
+    steps:
+      # Necroposting on a year-old closed issue helps nobody — the context is
+      # gone and the maintainers are not watching it. Locking pushes those
+      # conversations into a fresh issue where they get seen.
+      - uses: dessant/lock-threads@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+          issue-inactive-days: "90"
+          issue-comment: |
+            This issue has been automatically locked because it has been closed
+            for 90 days with no activity.
+
+            If you are hitting something similar, please
+            [open a new issue](https://github.com/RISHII7/night-code/issues/new/choose)
+            and link back to this one. A fresh issue with current context gets
+            attention; a comment on a stale thread usually does not.
+          issue-lock-reason: "resolved"
+
+          pr-inactive-days: "90"
+          pr-comment: |
+            This pull request has been automatically locked because it has been
+            closed for 90 days with no activity.
+
+            Please open a new issue or pull request if you would like to continue
+            this line of work.
+          pr-lock-reason: "resolved"
+
+          # Never lock security discussions — a researcher may legitimately need
+          # to follow up long after a fix ships.
+          exclude-any-issue-labels: "type: security,security: needs-review,status: pinned"
+          exclude-any-pr-labels: "type: security,security: needs-review,status: pinned"

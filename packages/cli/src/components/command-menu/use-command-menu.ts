@@ -22,13 +22,9 @@ export function useCommandMenu(): UseCommandMenuReturn {
   const [showCommandMenu, setShowCommandMenu] = useState(false);
   const scrollRef = useRef<ScrollBoxRenderable>(null);
 
-  const commandQuery =
-    showCommandMenu && textValue.startsWith("/") ? textValue.slice(1) : "";
+  const commandQuery = showCommandMenu && textValue.startsWith("/") ? textValue.slice(1) : "";
 
-  const filteredCommands = useMemo(
-    () => getFilteredCommands(commandQuery),
-    [commandQuery],
-  );
+  const filteredCommands = useMemo(() => getFilteredCommands(commandQuery), [commandQuery]);
 
   const handleContentChange = (text: string) => {
     setTextValue(text);

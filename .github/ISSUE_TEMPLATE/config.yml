@@ -1,0 +1,27 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: 🔒 Report a security vulnerability
+    url: https://github.com/RISHII7/night-code/security/advisories/new
+    about: |
+      Never report security issues in a public issue. Use GitHub's private
+      vulnerability reporting. See SECURITY.md for our disclosure policy and
+      response targets.
+
+  - name: 💬 Ask a question or start a discussion
+    url: https://github.com/RISHII7/night-code/discussions
+    about: |
+      For "how do I…", "why does it…", design feedback, or showing off what you
+      built. Discussions are searchable, so your question helps the next person.
+
+  - name: 📖 Read the documentation
+    url: https://github.com/RISHII7/night-code/tree/main/docs
+    about: Architecture, API reference, security model, and more.
+
+  - name: 🤝 Read the contributing guide
+    url: https://github.com/RISHII7/night-code/blob/main/CONTRIBUTING.md
+    about: Branching model, commit convention, and the pull request process.
+
+  - name: 📜 Code of Conduct
+    url: https://github.com/RISHII7/night-code/blob/main/CODE_OF_CONDUCT.md
+    about: The standards we hold this community to.

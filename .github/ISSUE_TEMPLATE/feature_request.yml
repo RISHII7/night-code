@@ -1,0 +1,105 @@
+name: ✨ Feature Request
+description: Suggest a capability NightCode does not have yet.
+title: "feat: "
+labels: ["type: feature", "status: needs-triage"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement.
+
+        The most useful feature requests describe a **real workflow that is
+        currently painful**, before proposing a solution. Lead with the problem.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight checklist
+      options:
+        - label: I have searched [existing issues](https://github.com/RISHII7/night-code/issues) and [Discussions](https://github.com/RISHII7/night-code/discussions) for this idea.
+          required: true
+        - label: I have checked the [roadmap](https://github.com/RISHII7/night-code/blob/main/docs/18-roadmap.md) and this is not already planned.
+          required: true
+        - label: I have checked the roadmap's **explicit non-goals** and this is not one of them.
+          required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: Describe the friction you hit. Do not describe the solution yet.
+      placeholder: |
+        When I resume a session from last week, I have no way to find the one where
+        I discussed the auth refactor — I have twenty sessions and only titles to
+        go on.
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: What solution would you like?
+      description: Now describe what you have in mind.
+      placeholder: A `/search` command that does full-text search across my own session history.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What alternatives have you considered?
+      description: Including "doing nothing" or working around it another way.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Which part of NightCode would this affect?
+      multiple: true
+      options:
+        - CLI / terminal UI
+        - API server
+        - Agent modes & tool system
+        - AI model integration
+        - Authentication
+        - Billing / usage limits
+        - Documentation
+        - Developer tooling / CI
+    validations:
+      required: true
+
+  - type: dropdown
+    id: tier
+    attributes:
+      label: Should this be available on the free tier?
+      description: |
+        NightCode's core promise is a genuinely capable free tier. Features that
+        would only serve paying users are evaluated differently from features that
+        strengthen the free experience.
+      options:
+        - Yes — this should be free for everyone
+        - No — this is reasonable as a Pro-tier feature
+        - Not applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: security
+    attributes:
+      label: Security implications
+      description: |
+        Does this proposal expand what the agent can do to a user's machine, touch
+        credential handling, or change mode enforcement? If so, say how. If not,
+        write "None."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      options:
+        - label: I am willing to open a pull request implementing this.
+          required: false
