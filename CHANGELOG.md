@@ -25,7 +25,20 @@ file, and tag the release. See CONTRIBUTING.md for the full release process.
   rejects a `.js` config file outright, regardless of the package's module
   type. Renamed `commitlint.config.js` to `commitlint.config.mjs`. The error
   it surfaced ("You have commit messages with errors") was misleading — no
-  commit message was ever at fault. ([#5])
+  commit message was ever at fault. ([#14])
+- Dependabot produced pull request titles with a doubled scope
+  (`ci(deps)(deps): ...`), which the Conventional Commit title check rejects.
+  The scope was specified both in `prefix` and via `include: "scope"`. ([#14])
+- Removed the deprecated `reviewers` key from `dependabot.yml`. Reviewer
+  assignment comes from `CODEOWNERS`. ([#14])
+
+### Changed
+
+- Dependabot now ignores **minor** as well as patch updates for `@opentui/*`.
+  The package is pre-1.0, where a minor bump carries no compatibility promise,
+  and the previous configuration still auto-opened a `0.1.107` → `0.4.3`
+  upgrade despite the config claiming that version should be chosen
+  deliberately. ([#14])
 
 ## [0.1.0] - 2026-07-10
 
@@ -126,4 +139,4 @@ initial terminal client scaffold, and the repository's engineering governance.
 [#1]: https://github.com/RISHII7/night-code/pull/1
 [#2]: https://github.com/RISHII7/night-code/pull/2
 
-[#5]: https://github.com/RISHII7/night-code/pull/5
+[#14]: https://github.com/RISHII7/night-code/pull/14

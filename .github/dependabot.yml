@@ -21,12 +21,16 @@ updates:
     labels:
       - "type: dependencies"
       - "area: tooling"
+    # `include: "scope"` makes Dependabot append the scope itself, producing
+    # "chore(deps): ...". Putting the scope in `prefix` as well yields the
+    # invalid "chore(deps)(deps): ...", which the Conventional Commit title
+    # check then rejects.
     commit-message:
-      prefix: "chore(deps)"
-      prefix-development: "chore(deps-dev)"
+      prefix: "chore"
+      prefix-development: "chore"
       include: "scope"
-    reviewers:
-      - "RISHII7"
+    # Reviewers are assigned by .github/CODEOWNERS, not here. Dependabot's
+    # `reviewers` key is deprecated and rejected by the schema.
     groups:
       # Group low-risk patch updates so they arrive as one reviewable PR rather
       # than a dozen individually.
@@ -49,13 +53,19 @@ updates:
         patterns:
           - "@opentui/*"
     ignore:
-      # OpenTUI is pre-1.0 and its patch releases have shipped behavior changes
-      # (a terminal resize regression, for one). Pin deliberately and upgrade on
-      # purpose, not automatically.
+      # OpenTUI is pre-1.0, where a minor bump carries no compatibility promise
+      # and its patch releases have already shipped behavior changes (a terminal
+      # resize regression, for one). Both patch and minor are ignored so the
+      # version is chosen on purpose and verified against the terminal UI by
+      # hand, rather than drifting in through an automated pull request.
       - dependency-name: "@opentui/core"
-        update-types: ["version-update:semver-patch"]
+        update-types:
+          - "version-update:semver-patch"
+          - "version-update:semver-minor"
       - dependency-name: "@opentui/react"
-        update-types: ["version-update:semver-patch"]
+        update-types:
+          - "version-update:semver-patch"
+          - "version-update:semver-minor"
 
   # ---------------------------------------------------------------------------
   # GitHub Actions
@@ -76,10 +86,8 @@ updates:
       - "type: dependencies"
       - "area: ci"
     commit-message:
-      prefix: "ci(deps)"
+      prefix: "ci"
       include: "scope"
-    reviewers:
-      - "RISHII7"
     groups:
       actions:
         patterns:
