@@ -1,6 +1,6 @@
 name: Stale
 
-on:
+"on":
   schedule:
     # Daily at 05:00 UTC.
     - cron: "0 5 * * *"

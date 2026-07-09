@@ -1,6 +1,6 @@
 name: Greetings
 
-on:
+"on":
   issues:
     types: [opened]
   pull_request_target:

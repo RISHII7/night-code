@@ -1,6 +1,6 @@
 name: PR Validation
 
-on:
+"on":
   pull_request_target:
     types: [opened, edited, synchronize, reopened, ready_for_review, labeled, unlabeled]
 

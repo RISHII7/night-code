@@ -31,6 +31,16 @@ file, and tag the release. See CONTRIBUTING.md for the full release process.
   The scope was specified both in `prefix` and via `include: "scope"`. ([#14])
 - Removed the deprecated `reviewers` key from `dependabot.yml`. Reviewer
   assignment comes from `CODEOWNERS`. ([#14])
+- Pinned `ossf/scorecard-action` to `v2.4.3`. It was referenced as `@v2`, but
+  the action publishes no floating major tag, so the Scorecard job would have
+  failed to resolve the action the first time it ran on `main`. ([#14])
+- Quoted the `on` key in every workflow. YAML 1.1 coerces the bare key `on`
+  to the boolean `true`, so strict parsers and schema validators could not
+  resolve the GitHub Actions trigger block. ([#14])
+- Simplified `auto-assign.yml`: dropped the `issues` trigger, which had no
+  corresponding job, and removed a guard that indexed into
+  `pull_request.assignees[0]`. Adding an assignee who is already assigned is
+  a no-op, so the guard was never needed. ([#14])
 
 ### Changed
 
