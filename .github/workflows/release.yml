@@ -228,15 +228,35 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      # Every branch below either succeeds for a stated reason or fails loudly.
+      # The previous version ended in
+      #   || echo "Nothing to back-merge, or the PR already exists."
+      # which turned a hard permissions error into a green check. `develop`
+      # silently fell eight commits behind `main` after v0.1.0.
+      #
+      # A back-merge that quietly does nothing is worse than one that fails:
+      # the drift it exists to prevent happens anyway, and nobody is told.
       - name: Open back-merge pull request
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if gh pr list --base develop --head main --state open --json number --jq 'length' | grep -qv '^0$'; then
+          set -euo pipefail
+
+          open_prs=$(gh pr list --base develop --head main --state open --json number --jq 'length')
+          if [ "$open_prs" -gt 0 ]; then
             echo "A back-merge pull request from main into develop is already open."
             exit 0
           fi
 
+          if [ "$(git rev-list --count origin/develop..origin/main)" -eq 0 ]; then
+            echo "develop already contains every commit on main. Nothing to back-merge."
+            exit 0
+          fi
+
+          # Requires the repository setting "Allow GitHub Actions to create and
+          # approve pull requests". Without it this fails with:
+          #   GraphQL: GitHub Actions is not permitted to create or approve
+          #   pull requests (createPullRequest)
           gh pr create \
             --base develop \
             --head main \
@@ -246,5 +266,4 @@ jobs:
           This carries the version bump and any release-time fixes from \`main\`
           back into \`develop\` so the branches do not drift.
 
-          See CONTRIBUTING.md#release-process." \
-            || echo "Nothing to back-merge, or the PR already exists."
+          See CONTRIBUTING.md#release-process."
