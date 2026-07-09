@@ -19,43 +19,7 @@ file, and tag the release. See CONTRIBUTING.md for the full release process.
 
 ## [Unreleased]
 
-### Fixed
-
-- Commit message linting failed in CI because `commitlint-github-action`
-  rejects a `.js` config file outright, regardless of the package's module
-  type. Renamed `commitlint.config.js` to `commitlint.config.mjs`. The error
-  it surfaced ("You have commit messages with errors") was misleading — no
-  commit message was ever at fault. ([#14])
-- Dependabot produced pull request titles with a doubled scope
-  (`ci(deps)(deps): ...`), which the Conventional Commit title check rejects.
-  The scope was specified both in `prefix` and via `include: "scope"`. ([#14])
-- Removed the deprecated `reviewers` key from `dependabot.yml`. Reviewer
-  assignment comes from `CODEOWNERS`. ([#14])
-- Pinned `ossf/scorecard-action` to `v2.4.3`. It was referenced as `@v2`, but
-  the action publishes no floating major tag, so the Scorecard job would have
-  failed to resolve the action the first time it ran on `main`. ([#14])
-- Quoted the `on` key in every workflow. YAML 1.1 coerces the bare key `on`
-  to the boolean `true`, so strict parsers and schema validators could not
-  resolve the GitHub Actions trigger block. ([#14])
-- Simplified `auto-assign.yml`: dropped the `issues` trigger, which had no
-  corresponding job, and removed a guard that indexed into
-  `pull_request.assignees[0]`. Adding an assignee who is already assigned is
-  a no-op, so the guard was never needed. ([#14])
-
-### Changed
-
-- Pull requests into `develop` now merge with a **merge commit** rather than a
-  squash. A squash collapses a branch into one commit and discards the
-  reasoning recorded in each individual commit message — which is exactly what
-  `git blame` surfaces years later, to a reader with no access to the pull
-  request discussion. The consequence is that every commit must now stand on
-  its own as a valid Conventional Commit. Dependabot bumps are still squashed.
-  ([#14])
-- Dependabot now ignores **minor** as well as patch updates for `@opentui/*`.
-  The package is pre-1.0, where a minor bump carries no compatibility promise,
-  and the previous configuration still auto-opened a `0.1.107` → `0.4.3`
-  upgrade despite the config claiming that version should be chosen
-  deliberately. ([#14])
+_Nothing yet._
 
 ## [0.1.0] - 2026-07-10
 
@@ -102,13 +66,13 @@ initial terminal client scaffold, and the repository's engineering governance.
 - GitHub community templates: `CODEOWNERS`, a pull request template, and
   structured issue forms for bug reports, feature requests, documentation, and
   performance issues. ([#2])
-- Thirteen GitHub Actions workflows covering continuous integration
-  (typecheck, lint, format, cross-platform tests, coverage, build), pull
-  request validation (Conventional Commit titles, commit linting, branch target
-  policy, changelog enforcement, size labelling), static analysis (CodeQL),
-  supply chain security (dependency review, secret scanning, audit, OpenSSF
-  Scorecard), documentation checks (markdown lint, link check, spell check),
-  release automation, and repository hygiene. ([#2])
+- Thirteen GitHub Actions workflows covering continuous integration (typecheck,
+  lint, format, cross-platform tests, coverage, build), pull request validation
+  (Conventional Commit titles, commit linting, branch target policy, changelog
+  enforcement, size labelling), static analysis (CodeQL), supply chain security
+  (dependency review, secret scanning, audit, OpenSSF Scorecard), documentation
+  checks (markdown lint, link check, spell check), release automation, and
+  repository hygiene. ([#2])
 - Automated dependency updates via Dependabot for the npm ecosystem and GitHub
   Actions. ([#2])
 
@@ -119,6 +83,9 @@ initial terminal client scaffold, and the repository's engineering governance.
   pinned Bun runtime version, and a documented `.env.example`. ([#2])
 - Root workspace scripts for `typecheck`, `lint`, `format`, `test`, and
   `build`, each wired into CI as a required status check. ([#2])
+- VS Code workspace settings associating the published JSON schemas for
+  workflows, Dependabot, and issue forms, plus matching extension
+  recommendations. ([#14])
 
 ### Fixed
 
@@ -131,11 +98,46 @@ initial terminal client scaffold, and the repository's engineering governance.
   dependency array is now correct, and `react-hooks/exhaustive-deps` is
   enforced as an ESLint error so this class of bug fails CI rather than
   reaching a user's terminal. ([#2])
+- Commit message linting failed in CI because `commitlint-github-action`
+  rejects a `.js` config file outright, regardless of the package's module
+  type. Renamed `commitlint.config.js` to `commitlint.config.mjs`. The error it
+  surfaced ("You have commit messages with errors") was misleading — no commit
+  message was ever at fault. ([#14])
+- Dependabot produced pull request titles with a doubled scope
+  (`ci(deps)(deps): ...`), which the Conventional Commit title check rejects.
+  The scope was specified both in `prefix` and via `include: "scope"`. ([#14])
+- Removed the deprecated `reviewers` key from `dependabot.yml`. Reviewer
+  assignment comes from `CODEOWNERS`. ([#14])
+- Pinned `ossf/scorecard-action` to `v2.4.3`. It was referenced as `@v2`, but
+  the action publishes no floating major tag, so the Scorecard job would have
+  failed to resolve the action the first time it ran on `main`. ([#14])
+- Quoted the `on` key in every workflow. YAML 1.1 coerces the bare key `on` to
+  the boolean `true`, so strict parsers and schema validators could not resolve
+  the GitHub Actions trigger block. ([#14])
+- Simplified `auto-assign.yml`: dropped the `issues` trigger, which had no
+  corresponding job, and removed a guard that indexed into
+  `pull_request.assignees[0]`. Adding an assignee who is already assigned is a
+  no-op, so the guard was never needed. ([#14])
+- Ten fenced code blocks carried no language tag, and the pitch deck outline
+  skipped from an `h1` straight to `h3` for every slide, breaking the document
+  outline for screen readers and table-of-contents tooling. ([#2])
 
 ### Changed
 
 - Root package version corrected from `1.0.0` to `0.1.0` to reflect the
   project's actual pre-release maturity under Semantic Versioning. ([#2])
+- Pull requests into `develop` now merge with a **merge commit** rather than a
+  squash. A squash collapses a branch into one commit and discards the
+  reasoning recorded in each individual commit message — which is exactly what
+  `git blame` surfaces years later, to a reader with no access to the pull
+  request discussion. The consequence is that every commit must now stand on
+  its own as a valid Conventional Commit. Dependabot bumps are still squashed.
+  ([#14])
+- Dependabot now ignores **minor** as well as patch updates for `@opentui/*`.
+  The package is pre-1.0, where a minor bump carries no compatibility promise,
+  and the previous configuration still auto-opened a `0.1.107` → `0.4.3`
+  upgrade despite the config claiming that version should be chosen
+  deliberately. ([#14])
 
 ### Known Issues
 
@@ -143,8 +145,9 @@ initial terminal client scaffold, and the repository's engineering governance.
   launch. Root cause is suspected to be a dependency drift in `@opentui/core`:
   the architecture this client is modelled on pinned `0.1.97`, while this
   repository resolved `0.1.107` under the same `^0.1.97` range. Dependabot is
-  configured to ignore patch updates for `@opentui/*` so the version is chosen
-  deliberately rather than drifting again. Tracked for a follow-up fix.
+  now configured to ignore patch and minor updates for `@opentui/*`, so the
+  version is chosen deliberately rather than drifting again. Tracked for a
+  follow-up fix.
 
 <!-- Release comparison links -->
 
@@ -155,5 +158,4 @@ initial terminal client scaffold, and the repository's engineering governance.
 
 [#1]: https://github.com/RISHII7/night-code/pull/1
 [#2]: https://github.com/RISHII7/night-code/pull/2
-
 [#14]: https://github.com/RISHII7/night-code/pull/14

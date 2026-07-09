@@ -113,11 +113,19 @@ jobs:
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
 
-          # Pull the section between this version's heading and the next `## [`
-          # heading. This is why CHANGELOG.md format discipline matters.
+          # Pull the section between this version's heading and whatever ends
+          # it: the next release heading, or the link-definition block at the
+          # bottom of the file.
+          #
+          # `index($0, ...) == 1` is used rather than a regex. Building a
+          # dynamic regex here means writing "\\[" inside a single-quoted awk
+          # program, which awk collapses to a bare "[" and then interprets as
+          # the start of a character class — the pattern silently never matches
+          # and the release ships with empty notes.
           awk -v ver="$VERSION" '
-            $0 ~ "^## \\[" ver "\\]" { found=1; next }
-            found && /^## \[/ { exit }
+            index($0, "## [" ver "]") == 1 { found = 1; next }
+            found && index($0, "## [") == 1 { exit }
+            found && index($0, "<!-- Release comparison links -->") == 1 { exit }
             found { print }
           ' CHANGELOG.md > release-notes.md
 
