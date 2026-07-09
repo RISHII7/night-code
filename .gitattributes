@@ -1,0 +1,52 @@
+# Normalize line endings on commit. Prevents the CRLF/LF churn that otherwise
+# shows up when contributors work across Windows and Unix.
+* text=auto eol=lf
+
+# Explicitly text
+*.ts        text eol=lf
+*.tsx       text eol=lf
+*.js        text eol=lf
+*.jsx       text eol=lf
+*.json      text eol=lf
+*.jsonc     text eol=lf
+*.md        text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+*.toml      text eol=lf
+*.prisma    text eol=lf
+*.sh        text eol=lf
+*.css       text eol=lf
+*.html      text eol=lf
+.editorconfig  text eol=lf
+.gitattributes text eol=lf
+.gitignore     text eol=lf
+LICENSE        text eol=lf
+
+# Shell scripts and the CLI shim must stay LF even on Windows checkouts,
+# otherwise the shebang breaks.
+bin/*       text eol=lf
+*.sh        text eol=lf
+
+# Binary — never diff, never normalize
+*.png       binary
+*.jpg       binary
+*.jpeg      binary
+*.gif       binary
+*.ico       binary
+*.webp      binary
+*.woff      binary
+*.woff2     binary
+*.ttf       binary
+*.otf       binary
+*.pdf       binary
+*.zip       binary
+*.gz        binary
+*.node      binary
+
+# Lockfiles: keep in diffs but collapse them in review
+bun.lock       linguist-generated=true -diff
+package-lock.json linguist-generated=true -diff
+
+# Language statistics: don't count docs as the project's language
+docs/**                 linguist-documentation=true
+client-deliverables/**  linguist-documentation=true
