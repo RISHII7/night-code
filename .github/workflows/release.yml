@@ -57,21 +57,19 @@ jobs:
             exit 1
           fi
 
-  build-artifacts:
-    name: Build release artifacts
+  # ---------------------------------------------------------------------------
+  # Confirm the build succeeds on every platform a user might run it on. This
+  # job produces no release asset — see `package` below for why.
+  # ---------------------------------------------------------------------------
+  build-matrix:
+    name: Build (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     needs: verify
     timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - os: ubuntu-latest
-            target: linux-x64
-          - os: macos-latest
-            target: darwin-arm64
-          - os: windows-latest
-            target: windows-x64
+        os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -83,18 +81,53 @@ jobs:
       - name: Build CLI
         run: bun run build:cli
 
+  # ---------------------------------------------------------------------------
+  # Produce exactly one release archive.
+  #
+  # `bun build --target bun` emits a platform-independent JavaScript bundle,
+  # not a native executable. Building it on three runners yields three
+  # byte-identical outputs — publishing them as `nightcode-linux-x64`,
+  # `nightcode-darwin-arm64`, and `nightcode-windows-x64` would tell users
+  # they are choosing between builds when they are not.
+  #
+  # Shipping genuine per-platform executables requires `bun build --compile
+  # --target=bun-<platform>`, which is tracked as follow-up work. Until then,
+  # one honest artifact.
+  # ---------------------------------------------------------------------------
+  package:
+    name: Package release archive
+    runs-on: ubuntu-latest
+    needs: [verify, build-matrix]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - run: bun install --frozen-lockfile
+
+      - name: Build CLI
+        run: bun run build:cli
+
+      - name: Create archive
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          tar -czf "nightcode-${VERSION}.tar.gz" -C packages/cli/dist .
+          ls -l "nightcode-${VERSION}.tar.gz"
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: nightcode-${{ matrix.target }}
-          path: packages/cli/dist/
+          name: release-archive
+          path: nightcode-*.tar.gz
           retention-days: 30
           if-no-files-found: error
 
   github-release:
     name: Publish GitHub Release
     runs-on: ubuntu-latest
-    needs: [verify, build-artifacts]
+    needs: [verify, package]
     timeout-minutes: 15
     permissions:
       contents: write
@@ -107,6 +140,21 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: artifacts
+
+      # Flatten the artifact directory and publish a checksum file alongside
+      # the archive, so a download can be verified.
+      - name: Collect archive and generate checksums
+        run: |
+          mkdir -p release-assets
+          find artifacts -name '*.tar.gz' -exec mv {} release-assets/ \;
+
+          cd release-assets
+          sha256sum ./*.tar.gz > SHA256SUMS.txt
+
+          echo "--- release assets ---"
+          ls -l
+          echo "--- checksums ---"
+          cat SHA256SUMS.txt
 
       - name: Extract release notes from CHANGELOG.md
         id: notes
@@ -156,8 +204,9 @@ jobs:
           prerelease: ${{ steps.prerelease.outputs.value }}
           draft: false
           files: |
-            artifacts/**/*
-          fail_on_unmatched_files: false
+            release-assets/*.tar.gz
+            release-assets/SHA256SUMS.txt
+          fail_on_unmatched_files: true
 
   # ---------------------------------------------------------------------------
   # After a release lands on main, merge it back into develop so the version
