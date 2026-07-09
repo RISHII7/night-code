@@ -69,7 +69,7 @@ NightCode follows a **GitFlow-derived** model with two long-lived branches.
 All day-to-day work targets `develop`. `main` only ever receives a release merge
 or an emergency hotfix.
 
-```
+```text
 main      ────●────────────────────●──────────────●──────▶  (tagged releases)
                \                  /                \      /
                 \                / release/0.2.0    \    / hotfix/1.0.1
@@ -105,7 +105,7 @@ This project uses [Conventional Commits](https://www.conventionalcommits.org/).
 Commit messages are linted in CI, and pull request titles must follow the same
 format because they become the squash-merge commit message.
 
-```
+```text
 <type>(<optional scope>): <description>
 
 [optional body]
@@ -132,7 +132,7 @@ format because they become the squash-merge commit message.
 
 ### Example
 
-```
+```text
 feat(cli)!: resolve commands against the filtered list
 
 handleCommandExecute was memoized with an empty dependency array, so it

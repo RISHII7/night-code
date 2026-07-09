@@ -94,7 +94,7 @@ token lifetime and rotation policy live in the Clerk dashboard.
 
 ## 7. Token Storage on Disk
 
-```
+```text
 ~/.nightcode/auth.json
 ```
 

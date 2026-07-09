@@ -17,7 +17,7 @@ authenticated client.
 
 Every protected route expects:
 
-```
+```text
 Authorization: Bearer <access_token>
 ```
 

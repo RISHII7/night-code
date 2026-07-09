@@ -6,21 +6,21 @@ logos, and current metrics before presenting._
 
 ---
 
-### Slide 1 — Title
+## Slide 1 — Title
 
 **NightCode** A terminal-based AI coding agent, free for every developer.
 [Insert presenter name, date, audience]
 
 ---
 
-### Slide 2 — The Hook
+## Slide 2 — The Hook
 
 "Every AI coding agent on the market today assumes you're already paying for a
 frontier model API key. What if the best one didn't?"
 
 ---
 
-### Slide 3 — The Problem
+## Slide 3 — The Problem
 
 - AI coding agents are one of the highest-leverage tools a developer can adopt.
 - Every leading terminal-based agent requires a paid, metered provider API key
@@ -31,7 +31,7 @@ frontier model API key. What if the best one didn't?"
 
 ---
 
-### Slide 4 — The Insight
+## Slide 4 — The Insight
 
 - Open-weight models have closed the capability gap with closed frontier models
   faster than the market has priced in.
@@ -42,7 +42,7 @@ frontier model API key. What if the best one didn't?"
 
 ---
 
-### Slide 5 — The Product
+## Slide 5 — The Product
 
 Live demo or screenshot sequence:
 
@@ -54,7 +54,7 @@ Live demo or screenshot sequence:
 
 ---
 
-### Slide 6 — How It Works (Architecture, Simplified)
+## Slide 6 — How It Works (Architecture, Simplified)
 
 - Terminal client ↔ NightCode API ↔ NVIDIA's free model catalog.
 - Server-mediated access is what makes "free for everyone" possible — one pooled
@@ -64,7 +64,7 @@ Live demo or screenshot sequence:
 
 ---
 
-### Slide 7 — Why Now
+## Slide 7 — Why Now
 
 - Open-model quality inflection point.
 - Developer trust in "free" AI tools is rising as usage-based abuse patterns
@@ -74,7 +74,7 @@ Live demo or screenshot sequence:
 
 ---
 
-### Slide 8 — Business Model
+## Slide 8 — Business Model
 
 - Free tier: the default, real product experience — drives adoption and
   word-of-mouth.
@@ -85,7 +85,7 @@ Live demo or screenshot sequence:
 
 ---
 
-### Slide 9 — Traction _(populate with real data before presenting)_
+## Slide 9 — Traction _(populate with real data before presenting)_
 
 - Signups: [Insert]
 - Daily/weekly active sessions: [Insert]
@@ -94,7 +94,7 @@ Live demo or screenshot sequence:
 
 ---
 
-### Slide 10 — Competitive Landscape
+## Slide 10 — Competitive Landscape
 
 - Paid-API terminal agents: strong products, but cost is the adoption barrier we
   remove.
@@ -106,7 +106,7 @@ Live demo or screenshot sequence:
 
 ---
 
-### Slide 11 — Defensibility
+## Slide 11 — Defensibility
 
 - Provider-agnostic architecture: not locked to a single model vendor, can pool
   capacity across providers as the market shifts.
@@ -118,7 +118,7 @@ Live demo or screenshot sequence:
 
 ---
 
-### Slide 12 — Roadmap Highlights
+## Slide 12 — Roadmap Highlights
 
 - [Pull 2–3 items from the internal Roadmap doc most relevant to this audience —
   e.g. team workspaces for an enterprise pitch, additional free model providers
@@ -126,13 +126,13 @@ Live demo or screenshot sequence:
 
 ---
 
-### Slide 13 — The Ask
+## Slide 13 — The Ask
 
 [Insert specific ask: investment terms / partnership scope / pilot commitment.]
 
 ---
 
-### Slide 14 — Contact & Next Steps
+## Slide 14 — Contact & Next Steps
 
 [Insert contact details and proposed next step — demo, pilot, follow-up
 meeting.]

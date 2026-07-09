@@ -19,7 +19,7 @@ the team:
 
 ## 2. Top-Level Layout
 
-```
+```text
 nightcode/
 ├── package.json                 # workspace root: scripts that fan out to each package
 ├── bun.lock                     # single lockfile for the whole workspace
@@ -34,7 +34,7 @@ nightcode/
 
 ## 3. `packages/cli`
 
-```
+```text
 packages/cli/
 ├── bin/
 │   └── nightcode                # executable shim installed on the user's PATH
@@ -79,7 +79,7 @@ packages/cli/
 
 ## 4. `packages/server`
 
-```
+```text
 packages/server/
 ├── src/
 │   ├── index.ts                  # Hono app assembly, route mounting, port config
@@ -103,7 +103,7 @@ packages/server/
 
 ## 5. `packages/database`
 
-```
+```text
 packages/database/
 ├── prisma/
 │   └── schema.prisma             # single source of truth for the data model
@@ -117,7 +117,7 @@ packages/database/
 
 ## 6. `packages/shared`
 
-```
+```text
 packages/shared/
 ├── src/
 │   ├── models.ts                  # SUPPORTED_CHAT_MODELS registry + pricing/tier metadata
