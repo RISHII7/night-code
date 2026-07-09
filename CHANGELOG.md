@@ -19,6 +19,14 @@ file, and tag the release. See CONTRIBUTING.md for the full release process.
 
 ## [Unreleased]
 
+_Nothing yet._
+
+## [0.1.1] - 2026-07-10
+
+A patch release. Every change is to release tooling and CI; no product code is
+affected. Each defect below was found by running the v0.1.0 release for real,
+and three of them would have failed silently.
+
 ### Fixed
 
 - Release Drafter overwrote the curated release notes. It created a draft
@@ -191,7 +199,8 @@ initial terminal client scaffold, and the repository's engineering governance.
 
 <!-- Release comparison links -->
 
-[unreleased]: https://github.com/RISHII7/night-code/compare/v0.1.0...HEAD
+[unreleased]: https://github.com/RISHII7/night-code/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/RISHII7/night-code/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/RISHII7/night-code/releases/tag/v0.1.0
 
 <!-- Pull request links -->
