@@ -1,0 +1,142 @@
+name: 🐛 Bug Report
+description: Something is broken or behaves unexpectedly.
+title: "fix: "
+labels: ["type: bug", "status: needs-triage"]
+assignees: ["RISHII7"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug report.
+
+        > **⚠️ Do not report security vulnerabilities here.**
+        > Security issues must be reported privately. See [SECURITY.md](https://github.com/RISHII7/night-code/blob/main/SECURITY.md).
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight checklist
+      options:
+        - label: I have searched [existing issues](https://github.com/RISHII7/night-code/issues) and this is not a duplicate.
+          required: true
+        - label: This is not a security vulnerability. (If it is, follow [SECURITY.md](https://github.com/RISHII7/night-code/blob/main/SECURITY.md) instead.)
+          required: true
+        - label: I am running the latest version of NightCode.
+          required: false
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: A clear, specific description of the bug.
+      placeholder: Clicking a filtered command in the `/` menu executes the wrong command.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+      placeholder: Clicking the highlighted command should execute that command.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Be precise. A bug we cannot reproduce is a bug we cannot fix.
+      value: |
+        1. Run `nightcode` in a project directory
+        2. Type `/mo` in the input bar
+        3. Click the highlighted "models" entry with the mouse
+        4. Observe that `/new` is inserted instead
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Which component is affected?
+      options:
+        - CLI / terminal UI
+        - API server
+        - Authentication / login
+        - AI model responses
+        - Local tool execution (read/write/edit/bash)
+        - Billing / usage limits
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Which agent mode were you in?
+      options:
+        - PLAN
+        - BUILD
+        - Not applicable
+        - Not sure
+    validations:
+      required: false
+
+  - type: input
+    id: version
+    attributes:
+      label: NightCode version
+      description: "Output of `nightcode --version`, or the commit SHA if running from source."
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - macOS
+        - Linux
+        - Windows (native terminal)
+        - Windows (WSL)
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: terminal
+    attributes:
+      label: Terminal emulator
+      placeholder: "iTerm2 3.5, Windows Terminal 1.21, Alacritty 0.13, VS Code integrated terminal…"
+    validations:
+      required: false
+
+  - type: input
+    id: bun-version
+    attributes:
+      label: Bun version
+      description: "Output of `bun --version`. Only needed if running from source."
+      placeholder: "1.2.23"
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs or terminal output
+      description: |
+        Paste any error output. This is automatically formatted as code — no backticks needed.
+
+        **Redact any tokens, API keys, or proprietary source code before pasting.**
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Anything else?
+      description: Screenshots, an asciinema recording, or any other context that would help.
+    validations:
+      required: false

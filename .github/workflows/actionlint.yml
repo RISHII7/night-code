@@ -1,0 +1,73 @@
+name: Actionlint
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - ".github/workflows/**"
+      - ".github/actions/**"
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - ".github/workflows/**"
+      - ".github/actions/**"
+
+permissions:
+  contents: read
+
+jobs:
+  actionlint:
+    name: Lint workflow files
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      # Workflow files are code. A typo in a `${{ }}` expression, a shell
+      # injection through an untrusted input, or a nonexistent runner label
+      # should fail here rather than at 3am during a release.
+      - name: Run actionlint
+        uses: raven-actions/actionlint@v2
+        with:
+          matcher: true
+          fail-on-error: true
+          shellcheck: true
+          pyflakes: true
+
+  yaml-lint:
+    name: Lint YAML
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate YAML syntax
+        run: |
+          python3 - <<'PY'
+          import glob
+          import sys
+
+          try:
+              import yaml
+          except ImportError:
+              print("PyYAML not available; skipping.")
+              sys.exit(0)
+
+          failed = False
+          paths = (
+              glob.glob(".github/**/*.yml", recursive=True)
+              + glob.glob(".github/**/*.yaml", recursive=True)
+          )
+
+          for path in sorted(paths):
+              try:
+                  with open(path, encoding="utf-8") as handle:
+                      list(yaml.safe_load_all(handle))
+              except yaml.YAMLError as error:
+                  print(f"::error file={path}::Invalid YAML: {error}")
+                  failed = True
+              else:
+                  print(f"ok  {path}")
+
+          sys.exit(1 if failed else 0)
+          PY

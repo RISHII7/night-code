@@ -1,0 +1,78 @@
+name: 🐌 Performance Issue
+description: Something is slower than it should be.
+title: "perf: "
+labels: ["type: performance", "status: needs-triage"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Perceived responsiveness matters enormously in a terminal tool. Thanks for
+        reporting this.
+
+        Note that **time-to-first-token** on an AI response depends partly on the
+        upstream inference provider and on shared free-tier capacity. See
+        [Usage Limits & Billing](https://github.com/RISHII7/night-code/blob/main/docs/09-usage-limits-and-billing.md).
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: What is slow?
+      options:
+        - CLI startup time
+        - Terminal UI rendering / input lag
+        - Time to first streamed token
+        - Streaming throughput once a response starts
+        - Local tool execution (file read/write/grep/glob/bash)
+        - Session loading / resuming
+        - Login flow
+        - Build or install time
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the slowness
+      description: What are you doing, and how long does it take?
+      placeholder: Resuming a session with ~200 messages takes about 8 seconds before anything renders.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What performance did you expect?
+      placeholder: Under a second, or at least a visible loading indicator.
+    validations:
+      required: true
+
+  - type: textarea
+    id: measurements
+    attributes:
+      label: Measurements
+      description: Timings, profiles, or `time` output. Numbers make this actionable.
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, terminal emulator, NightCode version, Bun version, and any relevant hardware detail.
+      value: |
+        - OS:
+        - Terminal:
+        - NightCode version:
+        - Bun version:
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Include the size and shape of the data involved (e.g. "a repo with 40k files").
+    validations:
+      required: true

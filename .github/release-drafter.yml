@@ -1,0 +1,106 @@
+name-template: "v$RESOLVED_VERSION"
+tag-template: "v$RESOLVED_VERSION"
+tag-prefix: v
+
+template: |
+  ## What's Changed
+
+  $CHANGES
+
+  ## Contributors
+
+  $CONTRIBUTORS
+
+  **Full Changelog**: https://github.com/RISHII7/night-code/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
+
+  ---
+
+  For a curated, human-written account of this release, see [CHANGELOG.md](https://github.com/RISHII7/night-code/blob/main/CHANGELOG.md).
+
+categories:
+  - title: "💥 Breaking Changes"
+    labels:
+      - "breaking-change"
+  - title: "🔒 Security"
+    labels:
+      - "type: security"
+      - "security: needs-review"
+  - title: "✨ Features"
+    labels:
+      - "type: feature"
+  - title: "🐛 Bug Fixes"
+    labels:
+      - "type: bug"
+  - title: "🐌 Performance"
+    labels:
+      - "type: performance"
+  - title: "📚 Documentation"
+    labels:
+      - "type: docs"
+  - title: "♻️ Refactoring"
+    labels:
+      - "type: refactor"
+  - title: "🧪 Tests"
+    labels:
+      - "type: tests"
+  - title: "🔧 Tooling & CI"
+    labels:
+      - "area: ci"
+      - "area: tooling"
+  - title: "📦 Dependencies"
+    collapse-after: 5
+    labels:
+      - "type: dependencies"
+
+exclude-labels:
+  - "skip-changelog"
+
+change-template: "- $TITLE (#$NUMBER) @$AUTHOR"
+change-title-escapes: '\<*_&'
+
+# Resolve the next version from Conventional Commit semantics carried on labels.
+version-resolver:
+  major:
+    labels:
+      - "breaking-change"
+  minor:
+    labels:
+      - "type: feature"
+  patch:
+    labels:
+      - "type: bug"
+      - "type: performance"
+      - "type: docs"
+      - "type: refactor"
+      - "type: tests"
+      - "type: dependencies"
+  default: patch
+
+autolabeler:
+  - label: "type: bug"
+    title:
+      - '/^fix(\(.*\))?!?:/'
+  - label: "type: feature"
+    title:
+      - '/^feat(\(.*\))?!?:/'
+  - label: "type: docs"
+    title:
+      - '/^docs(\(.*\))?!?:/'
+  - label: "type: performance"
+    title:
+      - '/^perf(\(.*\))?!?:/'
+  - label: "type: refactor"
+    title:
+      - '/^refactor(\(.*\))?!?:/'
+  - label: "type: tests"
+    title:
+      - '/^test(\(.*\))?!?:/'
+  - label: "area: ci"
+    title:
+      - '/^ci(\(.*\))?!?:/'
+  - label: "area: tooling"
+    title:
+      - '/^(chore|build)(\(.*\))?!?:/'
+  - label: "breaking-change"
+    title:
+      - '/^\w+(\(.*\))?!:/'

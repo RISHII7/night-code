@@ -1,0 +1,30 @@
+name: Release Drafter
+
+on:
+  push:
+    branches: [develop]
+  pull_request_target:
+    types: [opened, reopened, synchronize, edited]
+
+permissions:
+  contents: read
+
+jobs:
+  update-draft:
+    name: Update release draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      # Keeps a running draft release up to date as PRs merge into develop, so
+      # cutting a release is never a scramble to remember what changed.
+      # Also autolabels PRs from their Conventional Commit title.
+      - uses: release-drafter/release-drafter@v6
+        with:
+          config-name: release-drafter.yml
+          disable-autolabeler: false
+          commitish: develop
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

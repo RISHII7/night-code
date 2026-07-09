@@ -1,0 +1,62 @@
+# CODEOWNERS
+#
+# Owners listed here are automatically requested for review when a pull request
+# touches a matching path. Combined with branch protection's "require review
+# from Code Owners" setting, this makes review of sensitive paths mandatory
+# rather than customary.
+#
+# The last matching pattern wins. Order matters — most specific rules go last.
+#
+# Reference: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for everything not matched by a more specific rule below.
+*                                   @RISHII7
+
+# ---------------------------------------------------------------------------
+# Workspace packages
+# ---------------------------------------------------------------------------
+/packages/cli/                      @RISHII7
+/packages/server/                   @RISHII7
+/packages/database/                 @RISHII7
+/packages/shared/                   @RISHII7
+
+# ---------------------------------------------------------------------------
+# Security-sensitive paths
+#
+# These govern the filesystem sandbox, PLAN/BUILD mode enforcement, credential
+# handling, and the usage allowance gate. A bug in any of them has materially
+# higher severity than a bug elsewhere in the codebase. Changes here require a
+# written security rationale in the pull request body — see CONTRIBUTING.md.
+# ---------------------------------------------------------------------------
+/packages/cli/src/lib/local-tools.ts    @RISHII7
+/packages/cli/src/lib/auth.ts           @RISHII7
+/packages/cli/src/lib/oauth.ts          @RISHII7
+/packages/server/src/lib/auth.ts        @RISHII7
+/packages/server/src/lib/credits.ts     @RISHII7
+/packages/server/src/middleware/        @RISHII7
+/packages/shared/src/schemas.ts         @RISHII7
+/packages/shared/src/models.ts          @RISHII7
+
+# ---------------------------------------------------------------------------
+# Repository configuration, CI/CD, and supply chain
+# ---------------------------------------------------------------------------
+/.github/                           @RISHII7
+/package.json                       @RISHII7
+/bun.lock                           @RISHII7
+/eslint.config.js                   @RISHII7
+/tsconfig.base.json                 @RISHII7
+
+# ---------------------------------------------------------------------------
+# Governance and legal
+# ---------------------------------------------------------------------------
+/LICENSE                            @RISHII7
+/SECURITY.md                        @RISHII7
+/GOVERNANCE.md                      @RISHII7
+/CODE_OF_CONDUCT.md                 @RISHII7
+/MAINTAINERS.md                     @RISHII7
+
+# ---------------------------------------------------------------------------
+# Documentation
+# ---------------------------------------------------------------------------
+/docs/                              @RISHII7
+/client-deliverables/               @RISHII7

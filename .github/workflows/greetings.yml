@@ -1,0 +1,57 @@
+name: Greetings
+
+on:
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  greeting:
+    name: Welcome first-time contributors
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/first-interaction@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+          issue-message: |
+            Thanks for opening your first issue in NightCode. 👋
+
+            A maintainer will triage this shortly. To help that go quickly:
+
+            - If this is a bug, make sure the reproduction steps are precise
+              enough for someone else to follow.
+            - If this is a feature request, lead with the **problem** you hit,
+              not just the solution you have in mind.
+
+            While you wait, the [documentation](https://github.com/RISHII7/night-code/tree/main/docs)
+            covers the architecture in depth, and
+            [Discussions](https://github.com/RISHII7/night-code/discussions) is
+            the right place for open-ended questions.
+
+            > **Reminder:** never report a security vulnerability in a public
+            > issue. See [SECURITY.md](https://github.com/RISHII7/night-code/blob/main/SECURITY.md).
+
+          pr-message: |
+            Thanks for opening your first pull request in NightCode. 🎉
+
+            A few things that will make review fast:
+
+            - The PR title must be a valid [Conventional Commit](https://github.com/RISHII7/night-code/blob/main/CONTRIBUTING.md#commit-convention) —
+              CI checks this.
+            - Fill in the **test plan** section. Describe what you actually
+              exercised, not just that CI is green.
+            - Add a `CHANGELOG.md` entry under `## [Unreleased]` unless this is
+              purely internal.
+
+            Once CI is green and the template is filled in, a maintainer will
+            review. You will be added to [AUTHORS.md](https://github.com/RISHII7/night-code/blob/main/AUTHORS.md)
+            when this merges.
