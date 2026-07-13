@@ -194,3 +194,58 @@ jobs:
             mechanical rename), say so in the description so the reviewer knows
             what to skim and what to read closely.
           files_to_ignore: "bun.lock package-lock.json"
+
+  # ---------------------------------------------------------------------------
+  # Label a pull request by its Conventional Commit type, derived from the
+  # title. This replaces the release-drafter autolabeler, which was removed
+  # because its release-drafting half kept overwriting the curated release
+  # notes on publish (see the release process in CONTRIBUTING.md).
+  #
+  # This is a plain script rather than an action: the mapping is trivial, and a
+  # script cannot develop a mind of its own about writing release drafts.
+  # ---------------------------------------------------------------------------
+  type-label:
+    name: Type label
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Apply type label from PR title
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          # The leading Conventional Commit type, e.g. "feat" from
+          # "feat(cli): add model picker". A breaking-change "!" is handled
+          # separately below.
+          type="$(printf '%s' "$PR_TITLE" | sed -n 's/^\([a-z]*\)\(([^)]*)\)\?!\?:.*/\1/p')"
+
+          case "$type" in
+            feat)     label="type: feature" ;;
+            fix)      label="type: bug" ;;
+            docs)     label="type: docs" ;;
+            perf)     label="type: performance" ;;
+            refactor) label="type: refactor" ;;
+            test)     label="type: tests" ;;
+            ci|build|chore) label="area: tooling" ;;
+            *)        label="" ;;
+          esac
+
+          if [ -n "$label" ]; then
+            echo "Applying '$label' from title type '$type'."
+            gh pr edit "$PR_NUMBER" --repo "$REPO" --add-label "$label"
+          else
+            echo "No type label maps from title '$PR_TITLE'."
+          fi
+
+          # A "!" before the colon marks a breaking change under Conventional
+          # Commits, regardless of type.
+          if printf '%s' "$PR_TITLE" | grep -qE '^[a-z]+(\([^)]*\))?!:'; then
+            echo "Title marks a breaking change."
+            gh pr edit "$PR_NUMBER" --repo "$REPO" --add-label "breaking-change"
+          fi
