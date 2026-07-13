@@ -19,6 +19,29 @@ file, and tag the release. See CONTRIBUTING.md for the full release process.
 
 ## [Unreleased]
 
+### Removed
+
+- The Release Drafter workflow and its config. Despite `disable-releaser: true`,
+  the action still authored the v0.1.1 release body — publishing produced
+  "## What's Changed / \* No changes" in place of the notes `release.yml` had
+  extracted from `CHANGELOG.md`. Rather than keep fighting an action whose
+  release-writing could not be reliably switched off, it is removed outright.
+  `CHANGELOG.md` is the sole source of release notes, full stop. ([#22])
+
+### Added
+
+- A deterministic `type-label` job in `pr-validation.yml` that labels a pull
+  request from its Conventional Commit title (`feat` → `type: feature`, a
+  trailing `!` → `breaking-change`, and so on). This replaces the one feature
+  worth keeping from Release Drafter — its autolabeler — as a plain shell
+  script that has no capacity to touch releases. ([#22])
+
+## [0.1.1] - 2026-07-10
+
+A patch release. Every change is to release tooling and CI; no product code is
+affected. Each defect below was found by running the v0.1.0 release for real,
+and three of them would have failed silently.
+
 ### Fixed
 
 - Release Drafter overwrote the curated release notes. It created a draft
@@ -191,7 +214,8 @@ initial terminal client scaffold, and the repository's engineering governance.
 
 <!-- Release comparison links -->
 
-[unreleased]: https://github.com/RISHII7/night-code/compare/v0.1.0...HEAD
+[unreleased]: https://github.com/RISHII7/night-code/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/RISHII7/night-code/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/RISHII7/night-code/releases/tag/v0.1.0
 
 <!-- Pull request links -->
@@ -203,3 +227,4 @@ initial terminal client scaffold, and the repository's engineering governance.
 [#16]: https://github.com/RISHII7/night-code/pull/16
 [#17]: https://github.com/RISHII7/night-code/pull/17
 [#19]: https://github.com/RISHII7/night-code/pull/19
+[#22]: https://github.com/RISHII7/night-code/pull/22
