@@ -21,7 +21,7 @@ jobs:
       # Necroposting on a year-old closed issue helps nobody — the context is
       # gone and the maintainers are not watching it. Locking pushes those
       # conversations into a fresh issue where they get seen.
-      - uses: dessant/lock-threads@v5
+      - uses: dessant/lock-threads@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
